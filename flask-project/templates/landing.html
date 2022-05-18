@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% set active_page = 'landing' %}
+{% block title %} Landing {% endblock %}
+{% block content %} 
+<div class="w-50">
+<form method="post">
+  {{ form.csrf_token }}
+  <div class="mb-3">
+	<fieldset class="form-field">
+		{{ form.date.label(class="form-label") }}
+		{{ form.date(class="form-control") }}
+		{% if form.date.errors %}
+            <ul class="errors">
+              {% for error in form.date.errors %}
+				`  <li>{{ error }}</li>
+              {% endfor %}
+            </ul>		   
+	    {% endif %} 	
+    </fieldset>
+  </div>
+  <div class="mb-3">
+	<fieldset class="form-field">
+		{{ form.number.label(class="form-label") }}
+		{{ form.number(class="form-control") }} 	
+    </fieldset>
+  </div>
+  {{ form.submit(class="btn btn-primary") }}
+</form>
+</div>
+{% if feedData is defined %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">BirthYear</th>
+    </tr>
+  </thead>
+  <tbody>
+
+                {% for person in feedData  %}
+                        <tr>
+                                <td class="align-middle">{{ loop.index0 +1 }}</td>
+                                <td class="align-middle"> <img src= {{ person['thumbnail'] }} class="img-thumbnail" style="max-height:50px;max-width:50px;"> {{person['text']}}</td>
+                                <td class="align-middle">{{ person['year']}}</td>
+                        </tr>
+
+        {% endfor %}
+
+  </tbody>
+</table>
+{% endif %}
+ {% endblock %}
